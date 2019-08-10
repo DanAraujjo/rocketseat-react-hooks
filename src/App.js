@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 function App() {
   const [tech, setTech] = useState([]);
@@ -9,7 +9,7 @@ function App() {
     setNewTech('');
   }
 
-  // executa apenas uma vez (rendereização) //componentDidMout
+  // executa apenas uma vez (rendereização) //componentDidMount
   useEffect(() => {
     const storageTech = localStorage.getItem('tech');
 
@@ -22,6 +22,9 @@ function App() {
   useEffect(() => {
     localStorage.setItem('tech', JSON.stringify(tech));
   }, [tech]);
+
+  // renderiza somente quando muda o valor ad variavel
+  const techCount = useMemo(() => tech.length, [tech]);
 
   return (
     <>
@@ -37,6 +40,7 @@ function App() {
           <li key={t}>{t}</li>
         ))}
       </ul>
+      <strong>Você tem {techCount} tecnologias</strong>
     </>
   );
 }
